@@ -1,0 +1,18 @@
+{
+    "name": "LazyRedpaw.Utilities.Editor",
+    "rootNamespace": "LazyRedpaw.Utilities.Editor",
+    "references": [
+        "GUID:e600cf7b8b9edbc4fa25f0f15157ff9c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

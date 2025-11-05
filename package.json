@@ -1,0 +1,11 @@
+{
+  "name": "com.lazyredpaw.utilities",
+  "displayName": "Utilities",
+  "version": "1.0.0",
+  "unity": "2022.3",
+  "type": "utility",
+  "author": {
+    "name": "Lazy Redpaw"
+  },
+  "description": "The package with various workflow helpers (extensions, custom drawers, attributes, editor scripts, etc.)."
+}
