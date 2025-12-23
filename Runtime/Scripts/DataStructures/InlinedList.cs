@@ -7,7 +7,7 @@ using UnityEngine;
 namespace LazyRedpaw.Utilities
 {
     [Serializable]
-    public class InlinedList<T> : IList<T>, ISerializationCallbackReceiver where T : IEquatable<T>
+    public class InlinedList<T> : IList<T>, ISerializationCallbackReceiver
     {
         [SerializeReference] private T[] _s = Array.Empty<T>();
 
@@ -102,14 +102,16 @@ namespace LazyRedpaw.Utilities
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private void EnsureCapacity(int min)
         {
-            Init();
-            int current = Capacity;
+            int current = InlineCapacity + (_additionalItems?.Length ?? 0);
             if (current >= min) return;
             int newCap = current == 0 ? InlineCapacity : current << 1;
             if (newCap < min) newCap = min;
             int overflow = newCap - InlineCapacity;
             T[] arr = new T[overflow];
-            if (_additionalItems != null) Array.Copy(_additionalItems, arr, Math.Min(_count - 1, overflow));
+            if (_additionalItems != null)
+            {
+                Array.Copy(_additionalItems, arr, Math.Min(_count - 1, overflow));
+            }
             _additionalItems = arr;
         }
 
@@ -161,9 +163,9 @@ namespace LazyRedpaw.Utilities
                     {
                         _additionalItems.AsSpan(0, c - 1).CopyTo(_additionalItems.AsSpan(1));
                     }
+
                     _additionalItems[0] = _firstItem;
                 }
-
                 _firstItem = item;
                 _count = c + 1;
                 return;
@@ -201,7 +203,6 @@ namespace LazyRedpaw.Utilities
             _count = c - 1;
         }
 
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool Remove(T item)
         {
@@ -221,7 +222,7 @@ namespace LazyRedpaw.Utilities
             if (_additionalItems == null) return -1;
             int searchCount = _count - 1;
             if (searchCount <= 0) return -1;
-            int index = _additionalItems.AsSpan(0, searchCount).IndexOf(item);
+            int index = Array.IndexOf(_additionalItems, item, 0, searchCount);
             return index < 0 ? -1 : index + 1;
         }
 
@@ -237,7 +238,10 @@ namespace LazyRedpaw.Utilities
             Init();
             if (_count == 0) return;
             _firstItem = default!;
-            if (_additionalItems != null && _count > 1) Array.Clear(_additionalItems, 0, _count - 1);
+            if (_additionalItems != null && _count > 1)
+            {
+                _additionalItems.AsSpan(0, _count - 1).Clear();
+            }
             _count = 0;
         }
 
@@ -255,7 +259,6 @@ namespace LazyRedpaw.Utilities
             }
         }
 
-
         public T[] ToArray()
         {
             Init();
@@ -268,7 +271,6 @@ namespace LazyRedpaw.Utilities
             }
             return result;
         }
-
 
         public void Reverse()
         {
@@ -311,7 +313,6 @@ namespace LazyRedpaw.Utilities
             {
                 tmp[i] = GetItem(index + i);
             }
-
             Array.Sort(tmp, 0, count, cmp);
             for (int i = 0; i < count; i++)
             {
@@ -350,11 +351,15 @@ namespace LazyRedpaw.Utilities
             _additionalItems = null;
             _count = 0;
             if (_s == null || _s.Length == 0) return;
-            EnsureCapacity(_s.Length);
-            for (int i = 0; i < _s.Length; i++)
+            int length = _s.Length;
+            EnsureCapacity(length);
+            _firstItem = _s[0];
+            if (length > 1)
             {
-                Add(_s[i]);
+                _additionalItems.AsSpan(0, length - 1).Clear();
+                Array.Copy(_s, 1, _additionalItems!, 0, length - 1);
             }
+            _count = length;
         }
 
         public struct Enumerator : IEnumerator<T>
