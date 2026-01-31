@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 namespace LazyRedpaw.Utilities
 {
-    [CustomPropertyDrawer(typeof(HashPileGroupedAttribute), true)]
+    // [CustomPropertyDrawer(typeof(HashPileGroupedAttribute), true)]
     public class HashPileGroupedAttributeDrawer : HashPileDrawer
     {
         protected override void RefreshDrawer(SerializedProperty property, SerializedProperty freeListProp,

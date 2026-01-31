@@ -9,7 +9,7 @@ using UnityEngine.UIElements;
 
 namespace LazyRedpaw.Utilities
 {
-    [CustomPropertyDrawer(typeof(HashPile<>), true)]
+    // [CustomPropertyDrawer(typeof(HashPile<>), true)]
     public class HashPileDrawer : PropertyDrawer
     {
         protected const string UnityCollectionViewWithBorder = "unity-collection-view--with-border";

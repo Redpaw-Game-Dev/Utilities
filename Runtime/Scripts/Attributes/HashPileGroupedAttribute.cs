@@ -2,8 +2,8 @@
 
 namespace LazyRedpaw.Utilities
 {
-    public class HashPileGroupedAttribute : PropertyAttribute
-    {
-        
-    }
+    // public class HashPileGroupedAttribute : PropertyAttribute
+    // {
+    //     
+    // }
 }

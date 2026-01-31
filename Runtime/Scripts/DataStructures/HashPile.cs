@@ -57,7 +57,7 @@ namespace LazyRedpaw.Utilities
                 while (_index < _pile._lastIndex)
                 {
                     ref var slot = ref _pile._slots[_index++];
-                    if (slot.HashCode >= 0) { _current = slot.Value; return true; }
+                    if (slot.HashCode >= 0) { _current = (T)slot.Value; return true; }
                 }
                 _current = default!;
                 return false;
@@ -104,7 +104,7 @@ namespace LazyRedpaw.Utilities
             var copied = 0;
             for (var i = 0; i < _lastIndex && copied < _count; i++)
             {
-                if (_slots[i].HashCode >= 0) array[arrayIndex + copied++] = _slots[i].Value;
+                if (_slots[i].HashCode >= 0) array[arrayIndex + copied++] = (T)_slots[i].Value;
             }
         }
 
@@ -142,7 +142,7 @@ namespace LazyRedpaw.Utilities
             while (i >= 0)
             {
                 ref var slot = ref _slots[i];
-                if (slot.HashCode == hash && _comparer.Equals(slot.Value, item))
+                if (slot.HashCode == hash && _comparer.Equals((T)slot.Value, item))
                 {
                     var next = slot.Next;
                     if (prev < 0) _buckets[bucket] = next;
@@ -172,7 +172,7 @@ namespace LazyRedpaw.Utilities
             while (i >= 0)
             {
                 ref var slot = ref _slots[i];
-                if (slot.HashCode == hash && _comparer.Equals(slot.Value, item))
+                if (slot.HashCode == hash && _comparer.Equals((T)slot.Value, item))
                 {
                     var next = slot.Next;
                     if (prev < 0) _buckets[bucket] = next;
@@ -202,7 +202,7 @@ namespace LazyRedpaw.Utilities
             while (i >= 0)
             {
                 ref var slot = ref _slots[i];
-                if (slot.HashCode == hash && _comparer.Equals(slot.Value, item)) count++;
+                if (slot.HashCode == hash && _comparer.Equals((T)slot.Value, item)) count++;
                 i = slot.Next - 1;
             }
             return count;
@@ -245,7 +245,7 @@ namespace LazyRedpaw.Utilities
             while (i >= 0)
             {
                 ref var slot = ref _slots[i];
-                if (slot.HashCode == hash && _comparer.Equals(slot.Value, item)) return i;
+                if (slot.HashCode == hash && _comparer.Equals((T)slot.Value, item)) return i;
                 i = slot.Next - 1;
             }
             return -1;
