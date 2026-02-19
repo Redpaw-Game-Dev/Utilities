@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using UnityEngine.UIElements;
 
-namespace LazyRedpaw.Utilities.Editor
+namespace LazyRedpaw.Utilities
 {
     public static class VisualElementExtensions
     {
@@ -13,6 +13,9 @@ namespace LazyRedpaw.Utilities.Editor
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Hide(this VisualElement element) => element.style.display = StyleDisplayNone;
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool IsShown(this VisualElement element) => element.style.display == StyleDisplayFlex;
         
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void SetPadding(this VisualElement element, Length top = default, Length right = default, Length bottom = default, Length left = default)
